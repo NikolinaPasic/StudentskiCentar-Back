@@ -1,0 +1,15 @@
+D:\UserData\Desktop\Diplomski\StudentskiCentar-Back\Entities\bin\Debug\net5.0\Entities.deps.json
+D:\UserData\Desktop\Diplomski\StudentskiCentar-Back\Entities\bin\Debug\net5.0\Entities.runtimeconfig.json
+D:\UserData\Desktop\Diplomski\StudentskiCentar-Back\Entities\bin\Debug\net5.0\Entities.runtimeconfig.dev.json
+D:\UserData\Desktop\Diplomski\StudentskiCentar-Back\Entities\bin\Debug\net5.0\Entities.dll
+D:\UserData\Desktop\Diplomski\StudentskiCentar-Back\Entities\bin\Debug\net5.0\ref\Entities.dll
+D:\UserData\Desktop\Diplomski\StudentskiCentar-Back\Entities\bin\Debug\net5.0\Entities.pdb
+D:\UserData\Desktop\Diplomski\StudentskiCentar-Back\Entities\obj\Debug\net5.0\Entities.csproj.AssemblyReference.cache
+D:\UserData\Desktop\Diplomski\StudentskiCentar-Back\Entities\obj\Debug\net5.0\Entities.GeneratedMSBuildEditorConfig.editorconfig
+D:\UserData\Desktop\Diplomski\StudentskiCentar-Back\Entities\obj\Debug\net5.0\Entities.AssemblyInfoInputs.cache
+D:\UserData\Desktop\Diplomski\StudentskiCentar-Back\Entities\obj\Debug\net5.0\Entities.AssemblyInfo.cs
+D:\UserData\Desktop\Diplomski\StudentskiCentar-Back\Entities\obj\Debug\net5.0\Entities.csproj.CoreCompileInputs.cache
+D:\UserData\Desktop\Diplomski\StudentskiCentar-Back\Entities\obj\Debug\net5.0\Entities.dll
+D:\UserData\Desktop\Diplomski\StudentskiCentar-Back\Entities\obj\Debug\net5.0\ref\Entities.dll
+D:\UserData\Desktop\Diplomski\StudentskiCentar-Back\Entities\obj\Debug\net5.0\Entities.pdb
+D:\UserData\Desktop\Diplomski\StudentskiCentar-Back\Entities\obj\Debug\net5.0\Entities.genruntimeconfig.cache

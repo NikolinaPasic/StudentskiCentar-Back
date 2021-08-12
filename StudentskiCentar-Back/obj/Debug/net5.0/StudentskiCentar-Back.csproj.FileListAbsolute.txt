@@ -64,3 +64,5 @@ D:\UserData\Desktop\Diplomski\StudentskiCentar-Back\StudentskiCentar-Back\obj\De
 D:\UserData\Desktop\Diplomski\StudentskiCentar-Back\StudentskiCentar-Back\obj\Debug\net5.0\StudentskiCentar-Back.genruntimeconfig.cache
 D:\UserData\Desktop\Diplomski\StudentskiCentar-Back\StudentskiCentar-Back\bin\Debug\net5.0\Entities.dll
 D:\UserData\Desktop\Diplomski\StudentskiCentar-Back\StudentskiCentar-Back\bin\Debug\net5.0\Entities.pdb
+D:\UserData\Desktop\Diplomski\StudentskiCentar-Back\StudentskiCentar-Back\bin\Debug\net5.0\Data.dll
+D:\UserData\Desktop\Diplomski\StudentskiCentar-Back\StudentskiCentar-Back\bin\Debug\net5.0\Data.pdb

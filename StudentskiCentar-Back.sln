@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.31410.357
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudentskiCentar-Back", "StudentskiCentar-Back\StudentskiCentar-Back.csproj", "{D0C76444-A50F-4E3B-B836-3431A08889E0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entities", "Entities\Entities.csproj", "{C8989E2A-92C2-4D8D-94E9-CCA580D97B06}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Entities", "Entities\Entities.csproj", "{C8989E2A-92C2-4D8D-94E9-CCA580D97B06}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data", "Data\Data.csproj", "{FA1C8BE4-FB1F-47DD-8481-E56B212C3AA5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{C8989E2A-92C2-4D8D-94E9-CCA580D97B06}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C8989E2A-92C2-4D8D-94E9-CCA580D97B06}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C8989E2A-92C2-4D8D-94E9-CCA580D97B06}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA1C8BE4-FB1F-47DD-8481-E56B212C3AA5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA1C8BE4-FB1F-47DD-8481-E56B212C3AA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA1C8BE4-FB1F-47DD-8481-E56B212C3AA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA1C8BE4-FB1F-47DD-8481-E56B212C3AA5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

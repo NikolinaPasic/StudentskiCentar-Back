@@ -34,5 +34,9 @@ namespace Entities
         public List<Uplata> Uplate_admin { get; set; }
         public List<Rezervacija> Rezervacije { get; set; }
 
+        public byte[] PasswordHash { get; set; }
+        public byte[] PasswordSalt { get; set; }
+
+
     }
 }

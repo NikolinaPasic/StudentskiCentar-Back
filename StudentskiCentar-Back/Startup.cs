@@ -1,19 +1,23 @@
+using Data.Repository.Definition;
+using Data.Repository.Implementation;
 using Entities;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Server.IISIntegration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
-
 namespace StudentskiCentar_Back
 {
     public class Startup
@@ -30,16 +34,31 @@ namespace StudentskiCentar_Back
         {
 
             services.AddControllers();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "StudentskiCentar_Back", Version = "v1" });
             });
             services.AddDbContext<Context>(options =>
-                {
-                    options.UseSqlServer(@"Server=(localdb)\mssqllocaldb;
+            {
+                options.UseSqlServer(@"Server=(localdb)\mssqllocaldb;
                                         Database=Centar");
-                }
+            }
             );
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(
+                    builder =>
+                    {
+                        builder.WithOrigins("http://localhost:8100");
+                        builder.AllowAnyHeader();
+                        builder.AllowAnyMethod();
+                        builder.AllowCredentials();
+                    });
+            });
+            services.AddAuthentication(IISDefaults.AuthenticationScheme);
+        
+   
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -53,11 +72,12 @@ namespace StudentskiCentar_Back
             }
 
             app.UseHttpsRedirection();
-
             app.UseRouting();
-
+            
+            app.UseCors();
+            app.UseAuthentication();
             app.UseAuthorization();
-
+           
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

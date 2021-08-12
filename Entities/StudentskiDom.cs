@@ -15,9 +15,10 @@ namespace Entities
         public int StudentskiCentarId { get; set; }
 
         public List<Blok> Blokovi { get; set; }
-        public List<Soba> Sobe { get; set; }
+        
         public List<Masina> Masine { get; set; }
 
+        public List<Student> Studenti { get; set; }
 
 
     }

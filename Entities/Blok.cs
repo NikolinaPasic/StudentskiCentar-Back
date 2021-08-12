@@ -13,6 +13,8 @@ namespace Entities
         public int StudentskiCentarId { get; set; }
         public int StudentskiDomId { get; set; }
         public List<Soba> Sobe { get; set; }
+        public List<Student> Studenti { get; set; }
+
 
 
     }

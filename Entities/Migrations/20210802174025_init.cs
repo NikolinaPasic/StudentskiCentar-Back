@@ -59,8 +59,7 @@ namespace Entities.Migrations
                         name: "FK_StudentskiDom_StudentskiCentar_StudentskiCentarId",
                         column: x => x.StudentskiCentarId,
                         principalTable: "StudentskiCentar",
-                        principalColumn: "StudentskiCentarId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "StudentskiCentarId");
                 });
 
             migrationBuilder.CreateTable(
@@ -79,10 +78,11 @@ namespace Entities.Migrations
                         name: "FK_Blok_StudentskiCentar_StudentskiCentarId",
                         column: x => x.StudentskiCentarId,
                         principalTable: "StudentskiCentar",
-                        principalColumn: "StudentskiCentarId");
+                        principalColumn: "StudentskiCentarId",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Blok_StudentskiDom_StudentskiCentarId_StudentskiDomId",
-                        columns: x => new { x.StudentskiCentarId, x.StudentskiDomId },
+                        name: "FK_Blok_StudentskiDom_StudentskiDomId_StudentskiCentarId",
+                        columns: x => new { x.StudentskiDomId, x.StudentskiCentarId },
                         principalTable: "StudentskiDom",
                         principalColumns: new[] { "StudentskiCentarId", "StudentskiDomId" });
                 });
@@ -94,23 +94,27 @@ namespace Entities.Migrations
                     MasinaId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Kapacitet = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    StudentskiDomStudentskiCentarId = table.Column<int>(type: "int", nullable: false),
-                    StudentskiDomId1 = table.Column<int>(type: "int", nullable: false),
+                    StudentskiCentarId = table.Column<int>(type: "int", nullable: false),
                     StudentskiDomId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Masina", x => x.MasinaId);
                     table.ForeignKey(
-                        name: "FK_Masina_StudentskiDom_StudentskiDomStudentskiCentarId_StudentskiDomId1",
-                        columns: x => new { x.StudentskiDomStudentskiCentarId, x.StudentskiDomId1 },
-                        principalTable: "StudentskiDom",
-                        principalColumns: new[] { "StudentskiCentarId", "StudentskiDomId" },
+                        name: "FK_Masina_StudentskiCentar_StudentskiCentarId",
+                        column: x => x.StudentskiCentarId,
+                        principalTable: "StudentskiCentar",
+                        principalColumn: "StudentskiCentarId",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Masina_StudentskiDom_StudentskiDomId_StudentskiCentarId",
+                        columns: x => new { x.StudentskiDomId, x.StudentskiCentarId },
+                        principalTable: "StudentskiDom",
+                        principalColumns: new[] { "StudentskiCentarId", "StudentskiDomId" });
                 });
 
             migrationBuilder.CreateTable(
-                name: "Sobe",
+                name: "Soba",
                 columns: table => new
                 {
                     BrojSobe = table.Column<int>(type: "int", nullable: false),
@@ -121,22 +125,24 @@ namespace Entities.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Sobe", x => new { x.StudentskiCentarId, x.StudentskiDomId, x.BlokId, x.BrojSobe });
+                    table.PrimaryKey("PK_Soba", x => new { x.BrojSobe, x.BlokId, x.StudentskiDomId, x.StudentskiCentarId });
                     table.ForeignKey(
-                        name: "FK_Sobe_Blok_StudentskiCentarId_StudentskiDomId_BlokId",
-                        columns: x => new { x.StudentskiCentarId, x.StudentskiDomId, x.BlokId },
+                        name: "FK_Soba_Blok_BlokId_StudentskiDomId_StudentskiCentarId",
+                        columns: x => new { x.BlokId, x.StudentskiDomId, x.StudentskiCentarId },
                         principalTable: "Blok",
                         principalColumns: new[] { "StudentskiCentarId", "StudentskiDomId", "BlokId" });
                     table.ForeignKey(
-                        name: "FK_Sobe_StudentskiCentar_StudentskiCentarId",
+                        name: "FK_Soba_StudentskiCentar_StudentskiCentarId",
                         column: x => x.StudentskiCentarId,
                         principalTable: "StudentskiCentar",
-                        principalColumn: "StudentskiCentarId");
+                        principalColumn: "StudentskiCentarId",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Sobe_StudentskiDom_StudentskiCentarId_StudentskiDomId",
+                        name: "FK_Soba_StudentskiDom_StudentskiCentarId_StudentskiDomId",
                         columns: x => new { x.StudentskiCentarId, x.StudentskiDomId },
                         principalTable: "StudentskiDom",
-                        principalColumns: new[] { "StudentskiCentarId", "StudentskiDomId" });
+                        principalColumns: new[] { "StudentskiCentarId", "StudentskiDomId" },
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -157,41 +163,33 @@ namespace Entities.Migrations
                     Finansiranje = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     StanjeNaRacunu = table.Column<double>(type: "float", nullable: false),
                     BrojSobe = table.Column<int>(type: "int", nullable: false),
-                    StudentskiDomStudentskiCentarId = table.Column<int>(type: "int", nullable: false),
-                    StudentskiDomId1 = table.Column<int>(type: "int", nullable: false),
                     StudentskiCentarId = table.Column<int>(type: "int", nullable: false),
                     StudentskiDomId = table.Column<int>(type: "int", nullable: false),
-                    BlokStudentskiCentarId = table.Column<int>(type: "int", nullable: false),
-                    BlokStudentskiDomId = table.Column<int>(type: "int", nullable: false),
-                    BlokId1 = table.Column<int>(type: "int", nullable: false),
                     BlokId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Student", x => x.StudentId);
                     table.ForeignKey(
-                        name: "FK_Student_Blok_BlokStudentskiCentarId_BlokStudentskiDomId_BlokId1",
-                        columns: x => new { x.BlokStudentskiCentarId, x.BlokStudentskiDomId, x.BlokId1 },
+                        name: "FK_Student_Blok_BlokId_StudentskiDomId_StudentskiCentarId",
+                        columns: x => new { x.BlokId, x.StudentskiDomId, x.StudentskiCentarId },
                         principalTable: "Blok",
-                        principalColumns: new[] { "StudentskiCentarId", "StudentskiDomId", "BlokId" },
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumns: new[] { "StudentskiCentarId", "StudentskiDomId", "BlokId" });
                     table.ForeignKey(
-                        name: "FK_Student_Sobe_BrojSobe_StudentskiDomId_StudentskiCentarId_BlokId",
-                        columns: x => new { x.BrojSobe, x.StudentskiDomId, x.StudentskiCentarId, x.BlokId },
-                        principalTable: "Sobe",
-                        principalColumns: new[] { "StudentskiCentarId", "StudentskiDomId", "BlokId", "BrojSobe" });
+                        name: "FK_Student_Soba_BrojSobe_BlokId_StudentskiDomId_StudentskiCentarId",
+                        columns: x => new { x.BrojSobe, x.BlokId, x.StudentskiDomId, x.StudentskiCentarId },
+                        principalTable: "Soba",
+                        principalColumns: new[] { "BrojSobe", "BlokId", "StudentskiDomId", "StudentskiCentarId" });
                     table.ForeignKey(
                         name: "FK_Student_StudentskiCentar_StudentskiCentarId",
                         column: x => x.StudentskiCentarId,
                         principalTable: "StudentskiCentar",
-                        principalColumn: "StudentskiCentarId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "StudentskiCentarId");
                     table.ForeignKey(
-                        name: "FK_Student_StudentskiDom_StudentskiDomStudentskiCentarId_StudentskiDomId1",
-                        columns: x => new { x.StudentskiDomStudentskiCentarId, x.StudentskiDomId1 },
+                        name: "FK_Student_StudentskiDom_StudentskiDomId_StudentskiCentarId",
+                        columns: x => new { x.StudentskiDomId, x.StudentskiCentarId },
                         principalTable: "StudentskiDom",
-                        principalColumns: new[] { "StudentskiCentarId", "StudentskiDomId" },
-                        onDelete: ReferentialAction.NoAction);
+                        principalColumns: new[] { "StudentskiCentarId", "StudentskiDomId" });
                 });
 
             migrationBuilder.CreateTable(
@@ -216,7 +214,7 @@ namespace Entities.Migrations
                         column: x => x.StudentId,
                         principalTable: "Student",
                         principalColumn: "StudentId",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -243,7 +241,7 @@ namespace Entities.Migrations
                         column: x => x.StudentId,
                         principalTable: "Student",
                         principalColumn: "StudentId",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -268,28 +266,28 @@ namespace Entities.Migrations
                         principalColumns: new[] { "StudentskiCentarId", "StudentskiDomId", "BlokId" },
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_UplataStanarine_Sobe_BrojSobe_StudentskiCentarId_StudentskiDomId_BlokId",
+                        name: "FK_UplataStanarine_Soba_BrojSobe_StudentskiCentarId_StudentskiDomId_BlokId",
                         columns: x => new { x.BrojSobe, x.StudentskiCentarId, x.StudentskiDomId, x.BlokId },
-                        principalTable: "Sobe",
-                        principalColumns: new[] { "StudentskiCentarId", "StudentskiDomId", "BlokId", "BrojSobe" });
+                        principalTable: "Soba",
+                        principalColumns: new[] { "BrojSobe", "BlokId", "StudentskiDomId", "StudentskiCentarId" });
                     table.ForeignKey(
                         name: "FK_UplataStanarine_Student_StudentId",
                         column: x => x.StudentId,
                         principalTable: "Student",
                         principalColumn: "StudentId",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_UplataStanarine_StudentskiCentar_StudentskiCentarId",
                         column: x => x.StudentskiCentarId,
                         principalTable: "StudentskiCentar",
                         principalColumn: "StudentskiCentarId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_UplataStanarine_StudentskiDom_StudentskiCentarId_StudentskiDomId",
                         columns: x => new { x.StudentskiCentarId, x.StudentskiDomId },
                         principalTable: "StudentskiDom",
                         principalColumns: new[] { "StudentskiCentarId", "StudentskiDomId" },
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -298,9 +296,19 @@ namespace Entities.Migrations
                 column: "StudentskiCentarId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Masina_StudentskiDomStudentskiCentarId_StudentskiDomId1",
+                name: "IX_Blok_StudentskiDomId_StudentskiCentarId",
+                table: "Blok",
+                columns: new[] { "StudentskiDomId", "StudentskiCentarId" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Masina_StudentskiCentarId",
                 table: "Masina",
-                columns: new[] { "StudentskiDomStudentskiCentarId", "StudentskiDomId1" });
+                column: "StudentskiCentarId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Masina_StudentskiDomId_StudentskiCentarId",
+                table: "Masina",
+                columns: new[] { "StudentskiDomId", "StudentskiCentarId" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Rezervacija_MasinaId",
@@ -313,14 +321,24 @@ namespace Entities.Migrations
                 column: "StudentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Student_BlokStudentskiCentarId_BlokStudentskiDomId_BlokId1",
-                table: "Student",
-                columns: new[] { "BlokStudentskiCentarId", "BlokStudentskiDomId", "BlokId1" });
+                name: "IX_Soba_BlokId_StudentskiDomId_StudentskiCentarId",
+                table: "Soba",
+                columns: new[] { "BlokId", "StudentskiDomId", "StudentskiCentarId" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Student_BrojSobe_StudentskiDomId_StudentskiCentarId_BlokId",
+                name: "IX_Soba_StudentskiCentarId_StudentskiDomId",
+                table: "Soba",
+                columns: new[] { "StudentskiCentarId", "StudentskiDomId" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Student_BlokId_StudentskiDomId_StudentskiCentarId",
                 table: "Student",
-                columns: new[] { "BrojSobe", "StudentskiDomId", "StudentskiCentarId", "BlokId" });
+                columns: new[] { "BlokId", "StudentskiDomId", "StudentskiCentarId" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Student_BrojSobe_BlokId_StudentskiDomId_StudentskiCentarId",
+                table: "Student",
+                columns: new[] { "BrojSobe", "BlokId", "StudentskiDomId", "StudentskiCentarId" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Student_StudentskiCentarId",
@@ -328,9 +346,9 @@ namespace Entities.Migrations
                 column: "StudentskiCentarId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Student_StudentskiDomStudentskiCentarId_StudentskiDomId1",
+                name: "IX_Student_StudentskiDomId_StudentskiCentarId",
                 table: "Student",
-                columns: new[] { "StudentskiDomStudentskiCentarId", "StudentskiDomId1" });
+                columns: new[] { "StudentskiDomId", "StudentskiCentarId" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Uplata_AdministratorId",
@@ -374,7 +392,7 @@ namespace Entities.Migrations
                 name: "Student");
 
             migrationBuilder.DropTable(
-                name: "Sobe");
+                name: "Soba");
 
             migrationBuilder.DropTable(
                 name: "Blok");

@@ -67,6 +67,8 @@ namespace Entities.Migrations
 
                     b.HasKey("StudentskiCentarId", "StudentskiDomId", "BlokId");
 
+                    b.HasIndex("StudentskiDomId", "StudentskiCentarId");
+
                     b.ToTable("Blok");
                 });
 
@@ -80,18 +82,17 @@ namespace Entities.Migrations
                     b.Property<string>("Kapacitet")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("StudentskiCentarId")
+                        .HasColumnType("int");
+
                     b.Property<int>("StudentskiDomId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("StudentskiDomId1")
-                        .HasColumnType("int");
-
-                    b.Property<int>("StudentskiDomStudentskiCentarId")
                         .HasColumnType("int");
 
                     b.HasKey("MasinaId");
 
-                    b.HasIndex("StudentskiDomStudentskiCentarId", "StudentskiDomId1");
+                    b.HasIndex("StudentskiCentarId");
+
+                    b.HasIndex("StudentskiDomId", "StudentskiCentarId");
 
                     b.ToTable("Masina");
                 });
@@ -118,24 +119,28 @@ namespace Entities.Migrations
 
             modelBuilder.Entity("Entities.Soba", b =>
                 {
-                    b.Property<int>("StudentskiCentarId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("StudentskiDomId")
+                    b.Property<int>("BrojSobe")
                         .HasColumnType("int");
 
                     b.Property<int>("BlokId")
                         .HasColumnType("int");
 
-                    b.Property<int>("BrojSobe")
+                    b.Property<int>("StudentskiDomId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StudentskiCentarId")
                         .HasColumnType("int");
 
                     b.Property<string>("Kategorija")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("StudentskiCentarId", "StudentskiDomId", "BlokId", "BrojSobe");
+                    b.HasKey("BrojSobe", "BlokId", "StudentskiDomId", "StudentskiCentarId");
 
-                    b.ToTable("Sobe");
+                    b.HasIndex("StudentskiCentarId", "StudentskiDomId");
+
+                    b.HasIndex("BlokId", "StudentskiDomId", "StudentskiCentarId");
+
+                    b.ToTable("Soba");
                 });
 
             modelBuilder.Entity("Entities.Student", b =>
@@ -146,15 +151,6 @@ namespace Entities.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("BlokId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("BlokId1")
-                        .HasColumnType("int");
-
-                    b.Property<int>("BlokStudentskiCentarId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("BlokStudentskiDomId")
                         .HasColumnType("int");
 
                     b.Property<int>("BrojDorucaka")
@@ -181,6 +177,12 @@ namespace Entities.Migrations
                     b.Property<string>("Password")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<byte[]>("PasswordHash")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<byte[]>("PasswordSalt")
+                        .HasColumnType("varbinary(max)");
+
                     b.Property<string>("PozivNaBroj")
                         .HasColumnType("nvarchar(max)");
 
@@ -196,12 +198,6 @@ namespace Entities.Migrations
                     b.Property<int>("StudentskiDomId")
                         .HasColumnType("int");
 
-                    b.Property<int>("StudentskiDomId1")
-                        .HasColumnType("int");
-
-                    b.Property<int>("StudentskiDomStudentskiCentarId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Username")
                         .HasColumnType("nvarchar(max)");
 
@@ -209,11 +205,11 @@ namespace Entities.Migrations
 
                     b.HasIndex("StudentskiCentarId");
 
-                    b.HasIndex("StudentskiDomStudentskiCentarId", "StudentskiDomId1");
+                    b.HasIndex("StudentskiDomId", "StudentskiCentarId");
 
-                    b.HasIndex("BlokStudentskiCentarId", "BlokStudentskiDomId", "BlokId1");
+                    b.HasIndex("BlokId", "StudentskiDomId", "StudentskiCentarId");
 
-                    b.HasIndex("BrojSobe", "StudentskiDomId", "StudentskiCentarId", "BlokId");
+                    b.HasIndex("BrojSobe", "BlokId", "StudentskiDomId", "StudentskiCentarId");
 
                     b.ToTable("Student");
                 });
@@ -321,14 +317,14 @@ namespace Entities.Migrations
             modelBuilder.Entity("Entities.Blok", b =>
                 {
                     b.HasOne("Entities.StudentskiCentar", "StudentskiCentar")
-                        .WithMany("Blokovi")
+                        .WithMany()
                         .HasForeignKey("StudentskiCentarId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Entities.StudentskiDom", "StudentskiDom")
                         .WithMany("Blokovi")
-                        .HasForeignKey("StudentskiCentarId", "StudentskiDomId")
+                        .HasForeignKey("StudentskiDomId", "StudentskiCentarId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
@@ -339,11 +335,19 @@ namespace Entities.Migrations
 
             modelBuilder.Entity("Entities.Masina", b =>
                 {
-                    b.HasOne("Entities.StudentskiDom", "StudentskiDom")
-                        .WithMany("Masine")
-                        .HasForeignKey("StudentskiDomStudentskiCentarId", "StudentskiDomId1")
+                    b.HasOne("Entities.StudentskiCentar", "StudentskiCentar")
+                        .WithMany()
+                        .HasForeignKey("StudentskiCentarId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("Entities.StudentskiDom", "StudentskiDom")
+                        .WithMany("Masine")
+                        .HasForeignKey("StudentskiDomId", "StudentskiCentarId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("StudentskiCentar");
 
                     b.Navigation("StudentskiDom");
                 });
@@ -370,20 +374,20 @@ namespace Entities.Migrations
             modelBuilder.Entity("Entities.Soba", b =>
                 {
                     b.HasOne("Entities.StudentskiCentar", "StudentskiCentar")
-                        .WithMany("Sobe")
+                        .WithMany()
                         .HasForeignKey("StudentskiCentarId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Entities.StudentskiDom", "StudentskiDom")
-                        .WithMany("Sobe")
+                        .WithMany()
                         .HasForeignKey("StudentskiCentarId", "StudentskiDomId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Entities.Blok", "Blok")
                         .WithMany("Sobe")
-                        .HasForeignKey("StudentskiCentarId", "StudentskiDomId", "BlokId")
+                        .HasForeignKey("BlokId", "StudentskiDomId", "StudentskiCentarId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
@@ -397,26 +401,26 @@ namespace Entities.Migrations
             modelBuilder.Entity("Entities.Student", b =>
                 {
                     b.HasOne("Entities.StudentskiCentar", "StudentskiCentar")
-                        .WithMany()
+                        .WithMany("Studenti")
                         .HasForeignKey("StudentskiCentarId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Entities.StudentskiDom", "StudentskiDom")
-                        .WithMany()
-                        .HasForeignKey("StudentskiDomStudentskiCentarId", "StudentskiDomId1")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .WithMany("Studenti")
+                        .HasForeignKey("StudentskiDomId", "StudentskiCentarId")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Entities.Blok", "Blok")
-                        .WithMany()
-                        .HasForeignKey("BlokStudentskiCentarId", "BlokStudentskiDomId", "BlokId1")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .WithMany("Studenti")
+                        .HasForeignKey("BlokId", "StudentskiDomId", "StudentskiCentarId")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Entities.Soba", "Soba")
                         .WithMany("Studenti")
-                        .HasForeignKey("BrojSobe", "StudentskiDomId", "StudentskiCentarId", "BlokId")
+                        .HasForeignKey("BrojSobe", "BlokId", "StudentskiDomId", "StudentskiCentarId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
@@ -434,7 +438,7 @@ namespace Entities.Migrations
                     b.HasOne("Entities.StudentskiCentar", "StudentskiCentar")
                         .WithMany("Domovi")
                         .HasForeignKey("StudentskiCentarId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("StudentskiCentar");
@@ -510,6 +514,8 @@ namespace Entities.Migrations
             modelBuilder.Entity("Entities.Blok", b =>
                 {
                     b.Navigation("Sobe");
+
+                    b.Navigation("Studenti");
                 });
 
             modelBuilder.Entity("Entities.Masina", b =>
@@ -537,11 +543,9 @@ namespace Entities.Migrations
                 {
                     b.Navigation("Administratori");
 
-                    b.Navigation("Blokovi");
-
                     b.Navigation("Domovi");
 
-                    b.Navigation("Sobe");
+                    b.Navigation("Studenti");
                 });
 
             modelBuilder.Entity("Entities.StudentskiDom", b =>
@@ -550,7 +554,7 @@ namespace Entities.Migrations
 
                     b.Navigation("Masine");
 
-                    b.Navigation("Sobe");
+                    b.Navigation("Studenti");
                 });
 #pragma warning restore 612, 618
         }

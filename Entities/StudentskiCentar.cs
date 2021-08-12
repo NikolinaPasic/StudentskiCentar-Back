@@ -12,10 +12,11 @@ namespace Entities
         public string Naziv { get; set; }
 
         public List<StudentskiDom> Domovi { get; set; }
-        public List<Blok> Blokovi { get; set; }
-        public List<Soba> Sobe { get; set; }
+      
 
         public List<Administrator> Administratori { get; set; }
+
+        public List<Student> Studenti { get; set; }
 
     }
 }

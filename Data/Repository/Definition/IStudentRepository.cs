@@ -15,5 +15,6 @@ namespace Data.Repository.Definition
         void ChangePassword(Student student);
         void TransferMoney(Student student, double iznos);
         Task<Student> GetStudent(int id);
+        Task<Student> BuyMeals(Student student);
     }
 }

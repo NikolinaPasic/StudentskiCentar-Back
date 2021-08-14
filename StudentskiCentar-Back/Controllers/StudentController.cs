@@ -41,6 +41,7 @@ namespace StudentskiCentar_Back.Controllers
         [HttpPost]
         [Route("/login")]
         public async Task<ActionResult<Student>> Login([FromBody] StudentLoginModel student)
+        
         {
 
                 Student s = new Student { Password = student.Password, Username = student.Username };
@@ -58,6 +59,21 @@ namespace StudentskiCentar_Back.Controllers
             {
                 _unitOfWork.Student.ChangePassword(student);
                 return Ok("Lozinka je uspesno promenjena.");
+            }
+            catch (Exception)
+            {
+                return NotFound("Doslo je do greske!");
+                throw;
+            }
+        }
+        [HttpPatch]
+        [Route("buy")]
+        public async Task<ActionResult> BuyMeals([FromBody]Student student)
+        {
+            try
+            {
+                var student1 = await _unitOfWork.Student.BuyMeals(student);
+                return Ok(student1);
             }
             catch (Exception)
             {

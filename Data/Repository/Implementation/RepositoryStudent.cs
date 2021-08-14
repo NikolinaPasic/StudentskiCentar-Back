@@ -23,6 +23,17 @@ namespace Data.Repository.Implementation
             throw new NotImplementedException();
         }
 
+        public async Task<Student> BuyMeals(Student student)
+        {
+            Student s =await _context.Student.SingleAsync(d => d.StudentId == student.StudentId);
+            s.StanjeNaRacunu = student.StanjeNaRacunu;
+            s.BrojDorucaka = student.BrojDorucaka;
+            s.BrojRucaka = student.BrojRucaka;
+            s.BrojVecera = student.BrojVecera;
+            _context.SaveChanges();
+            return s;
+        }
+
         public void ChangePassword(Student s)
         {
             Student student = _context.Student.Single(d => d.StudentId == s.StudentId);
